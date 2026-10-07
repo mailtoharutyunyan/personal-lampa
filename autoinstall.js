@@ -72,7 +72,7 @@
         'https://levende.github.io/lampa-plugins/history-filter.js',
         'https://levende.github.io/lampa-plugins/random-scheduled.js',
         // Self-reference (keeps this installer active)
-        'https://mailtoharutyunyan.github.io/personal-lampa/autoinstall.js'
+        'https://cdn.jsdelivr.net/gh/mailtoharutyunyan/personal-lampa@main/autoinstall.js'
     ];
 
     plugins.forEach(function(url){ Lampa.Plugins.add(url); });
