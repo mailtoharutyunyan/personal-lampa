@@ -1,15 +1,25 @@
-# Personal Lampa Plugins
+# Personal Lampa
 
-Auto-installer for Lampa (Media Station X) plugins.
+Self-hosted Lampa instance with 57 plugins pre-installed.
 
-## Usage
+## TV Setup (Media Station X)
 
-Add this URL as a plugin in Lampa:
+Set this as the start URL in MSX:
 
 ```
-https://mailtoharutyunyan.github.io/personal-lampa/autoinstall.js
+https://mailtoharutyunyan.github.io/personal-lampa/
 ```
 
-Settings → Extensions → Add Plugin → paste the URL → Ready → Restart Lampa.
+MSX → Settings → Start Parameter → URL → paste the link above.
 
-This installs 57 verified plugins (streaming, interface, torrent tools, TV/IPTV, radio, weather, and more).
+All plugins (streaming, IPTV, torrent, music, weather, etc.) load automatically on first launch.
+
+## Plugin Installer (standalone)
+
+If using the official Lampa app instead, add this plugin URL:
+
+```
+https://cdn.jsdelivr.net/gh/mailtoharutyunyan/personal-lampa@main/autoinstall.js
+```
+
+Settings → Extensions → Add Plugin → paste → Ready → Restart.
