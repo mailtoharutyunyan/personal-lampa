@@ -14,7 +14,7 @@
         { id: 'rutubemovie', label: 'Rutube' }
     ];
 
-    var ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><text x="12" y="15.5" font-size="7" font-weight="bold" text-anchor="middle" fill="currentColor">4K</text></svg>';
+    var ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="currentColor"/></svg>';
 
     function buildQuery(movie) {
         var p = [];
@@ -120,7 +120,7 @@
     }
 
     function addButton(e) {
-        if (e.type !== 'complete') return;
+        if (e.type !== 'complete' && e.type !== 'complite') return;
         var render = e.object.activity.render();
         if (render.find('.view--vk4k').length) return;
         var movie = e.data.movie || e.object.card || {};
