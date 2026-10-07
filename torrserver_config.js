@@ -8,6 +8,16 @@
     if (window.plugin_tsdetect_ready) return;
     window.plugin_tsdetect_ready = true;
 
+    // Default to the BEST available quality (4K). The player prefers 2160p when a
+    // stream has it, and falls back to the highest available otherwise. Set once,
+    // so the user can still change it in Settings → Player afterwards.
+    try {
+        if (!Lampa.Storage.get('best_quality_set', false)) {
+            Lampa.Storage.set('video_quality_default', '2160');
+            Lampa.Storage.set('best_quality_set', true);
+        }
+    } catch (e) {}
+
     var PORT = 8090;
     // Subnets to probe. The user's network is 192.168.10.x; a few common ones are
     // included so it still works if the router hands out a different range.
