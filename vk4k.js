@@ -27,6 +27,7 @@
         st.textContent =
             '.view--vk4k .vk4k-badge{display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,.4));}' +
             '.view--vk4k.focus .vk4k-badge rect{stroke:#fff;stroke-width:2;}' +
+            '.vk4k-list{position:absolute;top:0;left:0;right:0;overflow-y:auto;overflow-x:hidden;padding:1.5em 2.5em;scroll-padding:3em 0;}' +
             '.vk4k-item{display:flex;align-items:center;padding:1.2em 1.4em;margin:0 0 .7em 0;border-radius:.7em;background:rgba(255,255,255,.06);transition:none;}' +
             '.vk4k-item.focus{background:#fff;color:#000;}' +
             '.vk4k-item__ico{flex:0 0 auto;margin-right:1.2em;opacity:.85;}' +
@@ -112,11 +113,17 @@
     // ---------- Full-page component ----------
     function component(object) {
         var network = new Lampa.Reguest();
-        var scroll = new Lampa.Scroll({ mask: true, over: true, step: 300 });
-        var items = [];
+        var html = $('<div class="vk4k-list"></div>');
         var last;
         var movie = object.movie || {};
         var self = this;
+
+        function fit() {
+            try {
+                var top = html[0].getBoundingClientRect().top;
+                html[0].style.height = Math.max(200, window.innerHeight - top) + 'px';
+            } catch (e) {}
+        }
 
         this.create = function () {
             this.activity.loader(true);
@@ -124,7 +131,7 @@
             return this.render();
         };
 
-        this.render = function () { return scroll.render(); };
+        this.render = function () { return html; };
 
         function load() {
             var query = buildQuery(movie);
@@ -158,15 +165,15 @@
                     '</div></div>'
                 );
                 el.on('hover:enter', function () { play(v); });
-                el.on('hover:focus', function (e) { last = e.target; scroll.update($(e.target), true); });
-                scroll.append(el);
-                items.push(el);
+                el.on('hover:focus', function (e) { last = e.target; if (e.target.scrollIntoView) e.target.scrollIntoView({ block: 'center' }); });
+                html.append(el);
             });
             self.activity.toggle();
+            setTimeout(fit, 0);
         }
 
         function empty() {
-            scroll.append($('<div class="vk4k-empty">В VK / Rutube ничего не найдено</div>'));
+            html.append($('<div class="vk4k-empty">В VK / Rutube ничего не найдено</div>'));
             self.activity.toggle();
         }
 
@@ -174,8 +181,8 @@
             if (Lampa.Activity.active().activity !== this.activity) return;
             Lampa.Controller.add('content', {
                 toggle: function () {
-                    Lampa.Controller.collectionSet(scroll.render());
-                    Lampa.Controller.collectionFocus(last || false, scroll.render());
+                    Lampa.Controller.collectionSet(html);
+                    Lampa.Controller.collectionFocus(last || false, html);
                 },
                 up: function () {
                     if (Navigator.canmove('up')) Navigator.move('up');
@@ -192,8 +199,7 @@
         this.stop = function () { };
         this.destroy = function () {
             network.clear();
-            scroll.destroy();
-            items = [];
+            if (html) html.remove();
         };
     }
 
