@@ -65,8 +65,9 @@
         }
         return chain.then(function (found) {
             if (found) return found;
-            // build candidate host list from subnets
-            var hosts = [];
+            // Check localhost FIRST — covers TorrServer running on the TV itself
+            // (http://127.0.0.1 is a secure context, so the https page can reach it).
+            var hosts = ['http://127.0.0.1:' + PORT, 'http://localhost:' + PORT];
             SUBNETS.forEach(function (sub) {
                 for (var n = 1; n < 255; n++) hosts.push('http://' + sub + n + ':' + PORT);
             });
