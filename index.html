@@ -23,16 +23,16 @@
 
     <script>
     (function(){
-        var key = 'plugins';
-        var existing = [];
-        try { existing = JSON.parse(localStorage.getItem(key)) || []; } catch(e){}
-        if (!existing.length) {
-            var urls = [
+        // Bump VERSION whenever the plugin list or our own plugins change.
+        // Every device re-seeds this list on the next reload (no manual clearing).
+        var VERSION = '20261008a';
+        var v = '?v=' + VERSION;
+        var urls = [
                 // --- Streaming / 4K (free, no account) ---
                 'https://nb557.github.io/plugins/online_mod.js',
-                'https://mailtoharutyunyan.github.io/personal-lampa/vk4k.js',
-                'https://mailtoharutyunyan.github.io/personal-lampa/torrents4k.js',
-                'https://mailtoharutyunyan.github.io/personal-lampa/torrserver_config.js',
+                'https://mailtoharutyunyan.github.io/personal-lampa/vk4k.js' + v,
+                'https://mailtoharutyunyan.github.io/personal-lampa/torrents4k.js' + v,
+                'https://mailtoharutyunyan.github.io/personal-lampa/torrserver_config.js' + v,
                 'https://bylampa.github.io/in_quality.js',
                 'https://num.jac-red.ru/plugin/nmprs.js',
                 'https://levende.github.io/lampa-plugins/balancer-sanitizer.js',
@@ -68,9 +68,13 @@
                 'https://levende.github.io/lampa-plugins/history-filter.js',
                 'https://levende.github.io/lampa-plugins/random-scheduled.js'
             ];
-            var plugins = urls.map(function(u){ return {url:u,status:1,name:'',author:''}; });
-            localStorage.setItem(key, JSON.stringify(plugins));
-        }
+        try {
+            if (localStorage.getItem('plugins_version') !== VERSION) {
+                var plugins = urls.map(function(u){ return {url:u,status:1,name:'',author:''}; });
+                localStorage.setItem('plugins', JSON.stringify(plugins));
+                localStorage.setItem('plugins_version', VERSION);
+            }
+        } catch(e){}
     })();
     </script>
 

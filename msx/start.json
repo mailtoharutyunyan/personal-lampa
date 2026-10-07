@@ -2,5 +2,5 @@
 	"name": "Lampa",
 	"version": "latest",
 	"parameter": "content:https://mailtoharutyunyan.github.io/personal-lampa/msx/start.json",
-	"action": "link:https://mailtoharutyunyan.github.io/personal-lampa/"
+	"action": "link:https://mailtoharutyunyan.github.io/personal-lampa/?v=20261008a"
 }
