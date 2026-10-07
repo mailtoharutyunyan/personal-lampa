@@ -76,17 +76,26 @@
         return out;
     }
 
-    function fetchProvider(provider, query, idx, done) {
+    function fetchProvider(provider, query, idx, done, state) {
+        state = state || { retried: false, sawResponse: false };
         idx = idx || 0;
-        if (idx >= INSTANCES.length) { done([]); return; }
+        if (idx >= INSTANCES.length) {
+            // All instances failed. If none even answered (e.g. all 503/busy), retry once.
+            if (!state.sawResponse && !state.retried) {
+                state.retried = true;
+                setTimeout(function () { fetchProvider(provider, query, 0, done, state); }, 1500);
+                return;
+            }
+            done([]); return;
+        }
         fetch(INSTANCES[idx] + '/lite/' + provider.id + query)
-            .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+            .then(function (r) { if (r.ok) { state.sawResponse = true; return r.text(); } return Promise.reject(); })
             .then(function (html) {
                 var items = parseItems(html, provider.label);
                 if (items.length) done(items);
-                else fetchProvider(provider, query, idx + 1, done);
+                else fetchProvider(provider, query, idx + 1, done, state);
             })
-            .catch(function () { fetchProvider(provider, query, idx + 1, done); });
+            .catch(function () { fetchProvider(provider, query, idx + 1, done, state); });
     }
 
     function qualityRank(item) {

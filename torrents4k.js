@@ -95,17 +95,25 @@
     }
     function m1(m) { return m[1]; }
 
-    function fetchTorrents(query, idx, done) {
+    function fetchTorrents(query, idx, done, state) {
+        state = state || { retried: false, sawResponse: false };
         idx = idx || 0;
-        if (idx >= INSTANCES.length) { done([]); return; }
+        if (idx >= INSTANCES.length) {
+            if (!state.sawResponse && !state.retried) {
+                state.retried = true;
+                setTimeout(function () { fetchTorrents(query, 0, done, state); }, 1500);
+                return;
+            }
+            done([]); return;
+        }
         fetch(INSTANCES[idx] + '/lite/pidtor' + query)
-            .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+            .then(function (r) { if (r.ok) { state.sawResponse = true; return r.text(); } return Promise.reject(); })
             .then(function (html) {
                 var items = parseItems(html);
                 if (items.length) done(items);
-                else fetchTorrents(query, idx + 1, done);
+                else fetchTorrents(query, idx + 1, done, state);
             })
-            .catch(function () { fetchTorrents(query, idx + 1, done); });
+            .catch(function () { fetchTorrents(query, idx + 1, done, state); });
     }
 
     function tsUrl() { return (Lampa.Storage.get('torrserver_url', '') || '').replace(/\/+$/, ''); }
