@@ -1,83 +1,76 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lampa</title>
+    <meta name="referrer" content="never">
+    <link rel="stylesheet" href="./vender/scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="./vender/keypad/style.css">
     <link rel="stylesheet" href="css/app.css">
 </head>
-<body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<body style="background: #1d1f20;">
+    <script>window.youtube_lazy_load = true</script>
+    <div class="welcome"></div>
+    <div id="app"></div>
+
+    <script src="./webos/webOSTV.js"></script>
+    <script src="./vender/jquery/jquery.js"></script>
+    <script src="./vender/notify/notify.js"></script>
+    <script src="./vender/scrollbar/jquery.scrollbar.js"></script>
+    <script src="./vender/navigator/navigator.js"></script>
+    <script src="./vender/keypad/keypad.js"></script>
+
     <script>
     (function(){
         var key = 'plugins';
         var existing = [];
         try { existing = JSON.parse(localStorage.getItem(key)) || []; } catch(e){}
-
         if (!existing.length) {
-            var plugins = [
-                {url:'http://lampa.stream/modss',status:1,name:'',author:''},
-                {url:'https://nb557.github.io/plugins/online_mod.js',status:1,name:'',author:''},
-                {url:'http://showy.online/m.js',status:1,name:'',author:''},
-                {url:'http://arkmv.ru/vod',status:1,name:'',author:''},
-                {url:'http://wtch.ch/m',status:1,name:'',author:''},
-                {url:'http://skaz.tv/onlines.js',status:1,name:'',author:''},
-                {url:'http://smotret24.ru/online.js',status:1,name:'',author:''},
-                {url:'http://llpp.in/v/vod.js',status:1,name:'',author:''},
-                {url:'http://z01.online/live',status:1,name:'',author:''},
-                {url:'https://beta.l-vid.online/on.js',status:1,name:'',author:''},
-                {url:'https://bylampa.github.io/cinema.js',status:1,name:'',author:''},
-                {url:'https://lampaplugins.github.io/store/fx.js',status:1,name:'',author:''},
-                {url:'http://cub.red/plugin/interface',status:1,name:'',author:''},
-                {url:'http://cub.red/plugin/quality',status:1,name:'',author:''},
-                {url:'http://cub.red/plugin/tmdb-proxy',status:1,name:'',author:''},
-                {url:'http://nb557.github.io/plugins/rating.js',status:1,name:'',author:''},
-                {url:'https://bylampa.github.io/interface.js',status:1,name:'',author:''},
-                {url:'https://bylampa.github.io/start.js',status:1,name:'',author:''},
-                {url:'https://bylampa.github.io/source.js',status:1,name:'',author:''},
-                {url:'https://lampame.github.io/main/newcategory.js',status:1,name:'',author:''},
-                {url:'https://andreyurl54.github.io/diesel5/tricks.js',status:1,name:'',author:''},
-                {url:'http://github.freebie.tom.ru/want.js',status:1,name:'',author:''},
-                {url:'https://xiaomishka.github.io/lampa/ads.js',status:1,name:'',author:''},
-                {url:'https://tvigl.github.io/plugins/notrailers.js',status:1,name:'',author:''},
-                {url:'https://cub.red/plugin/collections',status:1,name:'',author:''},
-                {url:'https://lampaplugins.github.io/store/p.js',status:1,name:'',author:''},
-                {url:'http://skaztv.online/o.js',status:1,name:'',author:''},
-                {url:'https://lampaplugins.github.io/store/logo.js',status:1,name:'',author:''},
-                {url:'https://skaztv.online/store.js',status:1,name:'',author:''},
-                {url:'https://tsynik.github.io/lampa/e.js',status:1,name:'',author:''},
-                {url:'https://nb557.github.io/plugins/not_mobile.js',status:1,name:'',author:''},
-                {url:'https://nb557.github.io/plugins/reset_subs.js',status:1,name:'',author:''},
-                {url:'http://cub.red/plugin/etor',status:1,name:'',author:''},
-                {url:'https://bylampa.github.io/jackett.js',status:1,name:'',author:''},
-                {url:'https://plugin.rootu.top/ts-preload.js',status:1,name:'',author:''},
-                {url:'https://lampame.github.io/td/td.js',status:1,name:'',author:''},
-                {url:'https://github.freebie.tom.ru/torrents.js',status:1,name:'',author:''},
-                {url:'https://lampame.github.io/main/pubtorr.js',status:1,name:'',author:''},
-                {url:'https://num.jac-red.ru/plugin/nmprs.js',status:1,name:'',author:''},
-                {url:'http://cub.red/plugin/iptv',status:1,name:'',author:''},
-                {url:'https://andreyurl54.github.io/diesel5/diesel.js',status:1,name:'',author:''},
-                {url:'http://skaztv.online/tv.js',status:1,name:'',author:''},
-                {url:'https://bylampa.github.io/tv.js',status:1,name:'',author:''},
-                {url:'https://plugin.rootu.top/tv.js',status:1,name:'',author:''},
-                {url:'https://bywolf88.github.io/lampa-plugins/cinemabywolf.js',status:1,name:'',author:''},
-                {url:'https://tsynik.github.io/lampa/soma.js',status:1,name:'',author:''},
-                {url:'https://lampame.github.io/main/music.js',status:1,name:'',author:''},
-                {url:'https://lampaplugins.github.io/store/record.js',status:1,name:'',author:''},
-                {url:'https://lampame.github.io/main/cts.js',status:1,name:'',author:''},
-                {url:'https://bylampa.github.io/weather.js',status:1,name:'',author:''},
-                {url:'https://levende.github.io/lampa-plugins/bookmarks-sync.js',status:1,name:'',author:''},
-                {url:'https://levende.github.io/lampa-plugins/profiles.js',status:1,name:'',author:''},
-                {url:'https://levende.github.io/lampa-plugins/tmdb-networks.js',status:1,name:'',author:''},
-                {url:'https://levende.github.io/lampa-plugins/custom-favs.js',status:1,name:'',author:''},
-                {url:'https://levende.github.io/lampa-plugins/trash-filter.js',status:1,name:'',author:''},
-                {url:'https://levende.github.io/lampa-plugins/history-filter.js',status:1,name:'',author:''},
-                {url:'https://levende.github.io/lampa-plugins/random-scheduled.js',status:1,name:'',author:''}
+            var urls = [
+                'http://lampa.stream/modss','https://nb557.github.io/plugins/online_mod.js',
+                'http://showy.online/m.js','http://arkmv.ru/vod','http://wtch.ch/m',
+                'http://skaz.tv/onlines.js','http://smotret24.ru/online.js',
+                'http://llpp.in/v/vod.js','http://z01.online/live',
+                'https://beta.l-vid.online/on.js','https://bylampa.github.io/cinema.js',
+                'https://lampaplugins.github.io/store/fx.js',
+                'http://cub.red/plugin/interface','http://cub.red/plugin/quality',
+                'http://cub.red/plugin/tmdb-proxy','http://nb557.github.io/plugins/rating.js',
+                'https://bylampa.github.io/interface.js','https://bylampa.github.io/start.js',
+                'https://bylampa.github.io/source.js','https://lampame.github.io/main/newcategory.js',
+                'https://andreyurl54.github.io/diesel5/tricks.js',
+                'http://github.freebie.tom.ru/want.js','https://xiaomishka.github.io/lampa/ads.js',
+                'https://tvigl.github.io/plugins/notrailers.js',
+                'https://cub.red/plugin/collections','https://lampaplugins.github.io/store/p.js',
+                'http://skaztv.online/o.js','https://lampaplugins.github.io/store/logo.js',
+                'https://skaztv.online/store.js','https://tsynik.github.io/lampa/e.js',
+                'https://nb557.github.io/plugins/not_mobile.js',
+                'https://nb557.github.io/plugins/reset_subs.js',
+                'http://cub.red/plugin/etor','https://bylampa.github.io/jackett.js',
+                'https://plugin.rootu.top/ts-preload.js','https://lampame.github.io/td/td.js',
+                'https://github.freebie.tom.ru/torrents.js','https://lampame.github.io/main/pubtorr.js',
+                'https://num.jac-red.ru/plugin/nmprs.js',
+                'http://cub.red/plugin/iptv','https://andreyurl54.github.io/diesel5/diesel.js',
+                'http://skaztv.online/tv.js','https://bylampa.github.io/tv.js',
+                'https://plugin.rootu.top/tv.js',
+                'https://bywolf88.github.io/lampa-plugins/cinemabywolf.js',
+                'https://tsynik.github.io/lampa/soma.js','https://lampame.github.io/main/music.js',
+                'https://lampaplugins.github.io/store/record.js','https://lampame.github.io/main/cts.js',
+                'https://bylampa.github.io/weather.js',
+                'https://levende.github.io/lampa-plugins/bookmarks-sync.js',
+                'https://levende.github.io/lampa-plugins/profiles.js',
+                'https://levende.github.io/lampa-plugins/tmdb-networks.js',
+                'https://levende.github.io/lampa-plugins/custom-favs.js',
+                'https://levende.github.io/lampa-plugins/trash-filter.js',
+                'https://levende.github.io/lampa-plugins/history-filter.js',
+                'https://levende.github.io/lampa-plugins/random-scheduled.js'
             ];
+            var plugins = urls.map(function(u){ return {url:u,status:1,name:'',author:''}; });
             localStorage.setItem(key, JSON.stringify(plugins));
         }
     })();
     </script>
+
     <script src="app.min.js"></script>
 </body>
 </html>
